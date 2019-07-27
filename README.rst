@@ -218,8 +218,8 @@ Y podemos visitarla a través de `este enlace
    gráficamente parte de los datos asociados. Más adelante introduciremos
    la capacidad de filtrado y corrección.
 
-|HTML|
-------
+HTML
+----
 
 .. code-block:: html
 
@@ -382,7 +382,7 @@ Este fichero tiene dos partes bien diferencias\ [#]_:
 Lo realmente enjundioso en el código es la creación de la plantilla que, aunque
 puede realizarse a través de `L.DivIcon.Mutable`_, es mejor hacer a través de
 
-.. _.createMutableIconClass:
+.. _L.utils.createMutableIconClass:
 
 **L.createMutableIcon(name, options)**
    Simplifica la creación de una plantilla:
@@ -395,7 +395,7 @@ puede realizarse a través de `L.DivIcon.Mutable`_, es mejor hacer a través de
 
      +-----------+---------------------------------------------------------------+
      | Opción    | Descripción                                                   |
-     +===========+---------------------------------------------------------------+
+     +===========+===============================================================+
      | html      | Código que define la plantilla. Puede pasarse una cadena, un  |
      |           | elemento, el contenido de un `<template>` o la respuesta XML  |
      |           | a una petición AJAX. El contenido puede ser un trozo de HTML  |
@@ -407,7 +407,7 @@ puede realizarse a través de `L.DivIcon.Mutable`_, es mejor hacer a través de
      | css       | URL al CSS que complementa al HTML de definición. No es       |
      |           | necesario en caso de que la definición se haga mediante SVG.  |
      +-----------+---------------------------------------------------------------+
-     | converter | Objeto conversor definido a través de `L.util.Converter`_.    |
+     | converter | Objeto conversor definido a través de `L.utils.Converter`_.   |
      +-----------+---------------------------------------------------------------+
      | updater   | Función de actualización de los detalles visuales de la       |
      |           | plantilla. Recibe como argumento un objeto con las opciones   |
@@ -491,10 +491,10 @@ Por su parte la funcion de *actualización* es bastante trivial, ahora bien:
 .. warning:: Asegúrese al implementarla de que el valor indefinido de una opción
    de dibujo, no altera el detalle de la plantilla asociado a tal opción.
 
-.. warning:: Tenga cuidado de usar en una función de conversión :code:`length 
-   paca calcular la longitud del array, porque cuando sobre el dato se define
-   `alguna corrección <correcciones>`_, :code:`length` no tiene en cuenta el
-   efecto de tal corrección. Más adelante trataremos cómo debe hacerse,
+.. warning:: Tenga cuidado de usar en una función de conversión ``length`` para
+   calcular la longitud del array, porque cuando sobre el dato se define `alguna
+   corrección <correcciones>`_, :code:`length` no tiene en cuenta el efecto de
+   tal corrección. Más adelante trataremos cómo debe hacerse,
 
 El *script* contenido en el otro fichero (:file:`js/simple.js`) es sumamente
 sencillo, ya que en el ejemplo, ni deseamos filtrar ni corregir:
@@ -578,7 +578,7 @@ propiedades que interesan se encuentrarán en *feature.properties*.
          // g es uno de los gimnasios.
          g.getData() === g.feature.properties  // true.
 
-     .. _changeDate:
+     .. _changeData:
 
      **.changeData(obj)**
       Método del objeto que modifica los valores de los datos asociados. Este
@@ -1116,7 +1116,7 @@ y eventos, relacionados estos con las correcciones:
    Evento del constructor ligado a la reversión de la corrección indicada.
    También puede usarse "*\**" como *name*.
 
-Para terminar de definir el |API| restan aún los métodos y eventos relacionados
+Para terminar de definir el API restan aún los métodos y eventos relacionados
 con el filtrado.
 
 .. _filtros:
@@ -1490,7 +1490,7 @@ Otras definiciones
 .. [#] Siempre que, claro está, hayamos establecido que pinchar sobre la marca
    nos muestra sus datos en detalle.
 
-.. [#] Pero, obviamente, no el |CSS| de Leaflet_.
+.. [#] Pero, obviamente, no el CSS de Leaflet_.
 
 .. [#] Falta aún otra que es la definición de la clase de marca (*Gym*), pero
    esa se encuentra en el otro fichero.
@@ -1504,7 +1504,8 @@ Otras definiciones
 
 .. _Leaflet: https://leafletjs.com
 .. _NodeJS: https://nodejs.org
-.. _L.GeJSON: https://leafletjs.com/reference-1.5.0.html#geojson
+.. _L.GeoJSON: https://leafletjs.com/reference-1.5.0.html#geojson
 .. _L.Marker: https://leafletjs.com/reference-1.5.0.html#marker
+.. _L.DivIcon: https://leafletjs.com/reference-1.5.0.html#divicon
 .. _L.MarkerClusterGroup: https://github.com/Leaflet/Leaflet.markercluster
 .. _XMLHttpRequest: https://developer.mozilla.org/es/docs/Web/API/XMLHttpRequest
