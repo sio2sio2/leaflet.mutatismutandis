@@ -1,0 +1,57 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+      {
+         "type": "Feature",
+         "properties": {
+            "name": "Identificación",
+            "actualizacion": "2019-07-24",
+            "ciudad": "Sevilla",
+            "tipos": {
+               "musculación": ["mlibre", "mguiada"],
+               "diáfana": ["zumba", "pilates", "yoga"],
+               "piscina": ["nlibre", "nguiada"]
+            }
+         }
+      },
+      {
+         "type": "Feature",
+         "geometry": {
+            "type": "Point",
+            "coordinates": [-5.997546, 37.388774]
+         },
+         "properties": {
+            "name": "Mr Olympia",
+            "horario": ["7:00", "22:00"],
+            "inst": ["musculación", "diáfana"],
+            "actividades": ["mlibre", "mguiada", "zumba", "yoga"]
+         }
+      },
+      {
+         "type": "Feature",
+         "geometry": {
+            "type": "Point",
+            "coordinates": [-5.981517, 37.391519]
+         },
+         "properties": {
+            "name": "VIP",
+            "horario": ["6:00", "23:30"],
+            "inst": ["musculación", "diáfana", "piscina", "sauna"],
+            "actividades": ["mlibre", "mguiada", "nlibre", "zumba", "yoga", "pilates"]
+         }
+      },
+      {
+         "type": "Feature",
+         "geometry": {
+            "type": "Point",
+            "coordinates": [-5.992804, 37.395184]
+         },
+         "properties": {
+            "name": "Rocoso",
+            "horario": ["8:00", "22:00"],
+            "inst": ["musculación", "sauna"],
+            "actividades": ["mlibre", "mguiada"]
+         }
+      }
+   ]
+}

@@ -1,6 +1,5 @@
 // webpack/webpack.common.js
-const path = require("path"),
-      webpack = require("webpack");
+const webpack = require("webpack");
 
 module.exports = env => {
    let filename;
@@ -21,7 +20,6 @@ module.exports = env => {
          "leaflet.mutatismutandis": "./src/index.js"
       },
       output: {
-         path: path.resolve(__dirname, "../lib"),
          filename: filename
       },
       plugins: [

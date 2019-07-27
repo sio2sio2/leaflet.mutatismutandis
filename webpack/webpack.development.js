@@ -7,7 +7,7 @@ module.exports = env => {
    const config = {
       mode: "development",
       devServer: {
-         contentBase: env.disk && require("path").resolve(__dirname, "../lib"),
+         contentBase: env.disk && require("path").resolve(__dirname, "../dist"),
          writeToDisk: env.disk
       }
    }

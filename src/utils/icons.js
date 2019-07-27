@@ -109,7 +109,7 @@ export function createMutableIconClass(name, options) {
    options.className = options.className || name;
 
    // Además de devolver el icono, lo precargamos en caso
-   // de que hubiera que ir a buscarlo en uin fichero externo
+   // de que hubiera que ir a buscarlo en un fichero externo
    if(mutable) return L.MutableIcon.extend({options: options}).onready(() => true);
    else {
       console.warn("Falta updater o converter: el icono no será mutable");
