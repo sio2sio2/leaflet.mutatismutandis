@@ -62,11 +62,11 @@ Instalación
 ===========
 La extensión dispone de tres sabores distintos:
 
-* :file:`leaflet.mutatismutandis.js`, que es la versión minimizada de la
+* ``leaflet.mutatismutandis.js``, que es la versión minimizada de la
   librería; y la apropiada en la mayor parte de los casos
-* :file:`leaflet.mutatismutandis.bundle.js`, que es una versión minimizada que
+* ``leaflet.mutatismutandis.bundle.js``, que es una versión minimizada que
   incluye el código de Leaflet_\ [#]_.
-* :file:`leaflet.mutatismutandis-src.js`, que es una versión no minimizada con
+* ``leaflet.mutatismutandis-src.js``, que es una versión no minimizada con
   mapeos al código fuente original, lo que la hace útil en caso de que se
   quieran realizar labores de depuración.
 
@@ -260,8 +260,8 @@ HTML
 
 Del código sólo es preciso puntualizar dos cosas:
 
-* Se ha separado el código en dos ficheros (:file:`js/index.js` y
-  :file:`js/simple.js`) , porque el segundo de ellos será el que
+* Se ha separado el código en dos ficheros (``js/index.js`` y
+  ``js/simple.js``) , porque el segundo de ellos será el que
   vaya cambiando según introduzcamos más aspectos de la extensión.
 
 * El `<template>
@@ -272,7 +272,7 @@ Del código sólo es preciso puntualizar dos cosas:
 
 Javascript
 ----------
-El código de :file:`js/index.js` es este:
+El código de ``js/index.js`` es este:
 
 .. code-block:: js
 
@@ -484,7 +484,7 @@ necesario definir un objeto conversor mediante
 
    Esta es la sintaxis necesaria para utilizar la extensión. aunque si se desea
    analizar el código fuente de la extensión es conveniente conocer la `el resto
-   de la API de L.utils.Converter.plus <L.utils.Converter.plus>`_.
+   de la API de L.utils.Converter <L.utils.Converter.plus>`_.
 
 Por su parte la funcion de *actualización* es bastante trivial, ahora bien:
 
@@ -496,7 +496,7 @@ Por su parte la funcion de *actualización* es bastante trivial, ahora bien:
    corrección <correcciones>`_, :code:`length` no tiene en cuenta el efecto de
    tal corrección. Más adelante trataremos cómo debe hacerse,
 
-El *script* contenido en el otro fichero (:file:`js/simple.js`) es sumamente
+El *script* contenido en el otro fichero (``js/simple.js``) es sumamente
 sencillo, ya que en el ejemplo, ni deseamos filtrar ni corregir:
 
 .. code-block:: js
@@ -747,7 +747,7 @@ correcciones sobre esos dos datos, o sea:
       });
    }
 
-Además es muy importante que rectifiquemos en :file:`js/index.js` la definición
+Además es muy importante que rectifiquemos en ``js/index.js`` la definición
 de la conversión para calcular correctamente las longitudes de los arrays
 susceptibles de corrección:
 
