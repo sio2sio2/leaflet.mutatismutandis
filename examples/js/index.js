@@ -3,6 +3,7 @@ window.onload = function() {
 
    // Mapa y obtención de la cartografía.
    const map = L.map("map").setView([37.390, -5.985], 15);
+   map.zoomControl.setPosition("bottomright");
    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
        maxZoom: 18
    }).addTo(map);
@@ -36,10 +37,14 @@ window.onload = function() {
       }
    });
 
+   window.Gym = Gym;
+   window.map = map;
+
+   // Controles para el mapa
+   crearBarraLateral();
+
    // Filtros y correcciones.
    agregarExtras.call(Gym);
-
-   window.Gym = Gym;
 }
 
 function crearIcono() {
@@ -75,3 +80,38 @@ function crearIcono() {
       updater: updater
    });
 }
+
+
+function crearBarraLateral() {
+   const div = document.getElementById("map"),
+         el = L.DomUtil.create("section", "leaflet-control", div);
+   el.id = "controlbar";
+
+   const section = document.querySelector("#sidebar").content.firstElementChild;
+   el.appendChild(section);
+
+   // Deshabilita los eventos del mapa al estar sobre la barra lateral
+   el.addEventListener("dblclick", e => e.stopPropagation());
+   el.addEventListener("contextmenu", e => e.stopPropagation());
+   el.addEventListener("click", e => e.stopPropagation());
+   el.addEventListener("mouseover", e => map.dragging.disable());
+   el.addEventListener("mouseout", e => map.dragging.enable());
+   el.addEventListener("mousewheel", e => e.stopPropagation());
+
+   crearControles();
+} 
+
+
+// Carga uno u otro script dependiendo de la URL.
+(function() {
+   function getScriptName() {
+      const url  = new URL(window.location.href),
+            num  = url.searchParams.get("num") || 1;
+      return `js/ej${num}.js`;
+   }
+
+   const script = document.createElement("script");
+   script.src = getScriptName();
+   script.async = true;
+   document.querySelector("head").appendChild(script);
+})();

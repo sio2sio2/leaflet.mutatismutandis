@@ -60,3 +60,8 @@ function agregarExtras() {
       }
    });
 }
+
+function crearControles() {
+   const container = L.DomUtil.get("controlbar").firstElementChild;
+   console.log(container);
+}

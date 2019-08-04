@@ -212,7 +212,7 @@ Nuestra aplicación, una vez hecha, debería lucir así:
 .. image:: examples/images/captura.png
 
 Y podemos visitarla a través de `este enlace
-<https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index1.html>`_.
+<https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index.html>`_.
 
 .. note:: Por ahora, nos limitamos a utlizar la extensión para representar
    gráficamente parte de los datos asociados. Más adelante introduciremos
@@ -237,42 +237,31 @@ HTML
       <!-- Plugin -->
       <script src="../dist/leaflet.mutatismutandis.js"></script>
 
-      <style>
-      /* <![CDATA[ */
-         html, body, #map {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-         }
-      /* ]]> */
-      </style>
+      <!-- Scripts/CSS oara este ejemplo -->
+      <link rel="stylesheet" href="css/index.css">
       <script src="js/index.js"></script>
-      <script src="js/simple.js"></script>
 
       <!-- Body -->
+
+      <!-- Aqúi se inserta el mapa -->
       <div id="map"></div>
 
+      <!-- Plantilla para construir los iconos -->
       <template id="iconocss">
          <div class="content"><span></span></div>
          <div class="arrow"></div>
       </template>
    </html>
 
-Del código sólo es preciso puntualizar dos cosas:
-
-* Se ha separado el código en dos ficheros (``js/index.js`` y
-  ``js/simple.js``) , porque el segundo de ellos será el que
-  vaya cambiando según introduzcamos más aspectos de la extensión.
-
-* El `<template>
-  <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template>`_ define
-  la plantilla, aunque se requiere, además, un fichero CSS. Una alternativa
-  a la definición del fichero mediante HTML+CSS es utilizar SVG (en
-  fichero aparte o definido mediante plantilla como en el ejemplo).
+Del código sólo es preciso puntualizar que el `<template>
+<https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template>`_ define la
+plantilla, aunque se requiere, además, un fichero CSS. Una alternativa a la
+definición del fichero mediante HTML+CSS es utilizar SVG (en fichero aparte o
+definido mediante plantilla como en el ejemplo).
 
 Javascript
 ----------
-El código de ``js/index.js`` es este:
+El código *Javascript* es este:
 
 .. code-block:: js
 
@@ -355,6 +344,18 @@ El código de ``js/index.js`` es este:
       });
    }
 
+   function crearMarca(layer) {
+      return L.Marker.Mutable.extend({
+         options: {
+            mutable: "feature.properties"
+         }
+      });
+   }
+
+   function agregarExtras() {
+      console.log("No se implementa ningún extra en esta versión");
+   }
+   
 Este fichero tiene dos partes bien diferencias\ [#]_:
 
 - La función que crea la plantilla (:code:`crearIcono()`).
@@ -496,23 +497,6 @@ Por su parte la funcion de *actualización* es bastante trivial, ahora bien:
    corrección <correcciones>`_, :code:`length` no tiene en cuenta el efecto de
    tal corrección. Más adelante trataremos cómo debe hacerse,
 
-El *script* contenido en el otro fichero (``js/simple.js``) es sumamente
-sencillo, ya que en el ejemplo, ni deseamos filtrar ni corregir:
-
-.. code-block:: js
-
-   function crearMarca(layer) {
-      return L.Marker.Mutable.extend({
-         options: {
-            mutable: "feature.properties"
-         }
-      });
-   }
-
-   function agregarExtras() {
-      console.log("No se implementa ningún extra en esta versión");
-   }
-   
 En consecuencia, la definición de la clase de marca se reduce a incluir la
 opción *mutable* con la expresión del atributo en el que se acoplan los datos.
 `L.GeoJSON`_ acopla el dato completo en el atributo *feature*, por lo que las
@@ -747,9 +731,9 @@ correcciones sobre esos dos datos, o sea:
       });
    }
 
-Además es muy importante que rectifiquemos en ``js/index.js`` la definición
-de la conversión para calcular correctamente las longitudes de los arrays
-susceptibles de corrección:
+Además es muy importante que rectifiquemos en la función ``crearIcono()`` la
+definición de la conversión para calcular correctamente las longitudes de los
+arrays susceptibles de corrección:
 
 .. code-block:: js
 
@@ -760,14 +744,14 @@ susceptibles de corrección:
 
 En realidad, :code:`length` es la longitud del array del dato y este es siempre
 el mismo. Por tanto, si lo corregimos, no nos es útil ya que :code:`length`
-seguirá devolviendo lo mismo. Para arrays "*corregibles*" la propiedad adecuada
-es :code:`total`, pero esta propiedad sólo existe se se llegó a definir alguna
-corrección para el dato. La solución más simple es definir una función que
-devuelva el valor de :code:`total` y, si este está indefinido, el de
+seguirá devolviendo el mismo valor. Para arrays "*corregibles*" la propiedad
+adecuada es :code:`total`, pero esta propiedad sólo existe si se llegó a definir
+alguna corrección para el dato. La solución más simple es definir una función
+que devuelva el valor de :code:`total` y, si este está indefinido, el de
 :code:`length`.
 
 Podemos cargar este segundo ejemplo en `esta segunda dirección
-<https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index2.html>`_.
+<https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index.html?num=2>`_.
 
 Para registrar sobre la clase de marca una corrección necesitamos:
 
@@ -882,7 +866,7 @@ redefinir la corrección *instalaciones*:
    });
 
 Prueba la aplicación con este cambio en `este tercer enlace
-<https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index3.html>`_.
+<https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index.html?num=3>`_.
 
 Para provocar que la aplicación de la corrección *instalaciones* desencadene
 automáticamente la aplicación de la corrección *actividades*. Aparecen dos
@@ -1179,7 +1163,7 @@ Y la reversión:
    Gym.invoke("refresh");
 
 El ejemplo con algunos filtros definidos puede visitar `en este cuarto enlace
-<https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index4.html>`_.
+<https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index.html?num=4>`_.
 
 Estilo de filtrado
 ------------------
