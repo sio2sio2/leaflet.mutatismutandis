@@ -159,7 +159,7 @@ CorrSys.prototype._normalizeName = function(name, prename) {
  */
 CorrSys.prototype.isCorrectable = function(attr, marker) {
    const arr = getProperty(marker.getData(), attr);
-   if(arr && arr.corr) return arr;
+   if(arr && arr.correctable) return arr.correctable;
    else null;
 }
 
@@ -246,7 +246,16 @@ CorrSys.prototype.prepare = function(obj, prop) {
          console.error("La propiedad no es un Array");
          continue
       }
-      o[name] = new Correctable(o[name], this);
+      const correctable = new Correctable(o[name], this);
+      // Issue #B.2
+      Object.defineProperty(o, name, {
+         get: () => {
+            const ret = Array.from(correctable).filter(e => e.filters.length === 0).map(e => e.value);
+            ret.correctable = correctable;
+            return ret;
+         }
+      });
+      // Fin #B.2
    }
 }
 

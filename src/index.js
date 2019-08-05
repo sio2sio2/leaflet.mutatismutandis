@@ -3,8 +3,8 @@ import MutableIcon from "./mutableIcon.js";
 import {load, createMutableIconClass, Converter,
         grayFilter, noFilteredIconCluster} from "./utils/index.js";
 
-L.MutableMarker = MutableMarker;
-L.MutableIcon = MutableIcon;
+L.Marker.Mutable = MutableMarker;
+L.Icon.Mutable = MutableIcon;
 L.utils = {
    load: load,
    createMutableIconClass: createMutableIconClass,

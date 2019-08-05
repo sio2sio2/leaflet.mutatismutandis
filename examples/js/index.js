@@ -48,11 +48,9 @@ window.onload = function() {
 }
 
 function crearIcono() {
-   const len = x => x.total === undefined?x.length:x.total;
-   // Define cómo se convierten los datos
-   // en las opciones de dibujo.
+   // Define cómo se convierten los datos en las opciones de dibujo.
    const converter = new L.utils.Converter(["piscina", "numact"])
-                                .define("numact", "actividades", a => len(a))
+                                .define("numact", "actividades", a => a.length)
                                 .define("piscina", "inst", i => i.includes("piscina"));
 
    // Cómo se actualiza la plantilla en función
@@ -87,8 +85,8 @@ function crearBarraLateral() {
          el = L.DomUtil.create("section", "leaflet-control", div);
    el.id = "controlbar";
 
-   const section = document.querySelector("#sidebar").content.firstElementChild;
-   el.appendChild(section);
+   Array.from(document.getElementById("sidebar").content.children)
+             .forEach(e => el.appendChild(e));
 
    // Deshabilita los eventos del mapa al estar sobre la barra lateral
    el.addEventListener("dblclick", e => e.stopPropagation());
@@ -101,17 +99,46 @@ function crearBarraLateral() {
    crearControles();
 } 
 
+function crearMarca(layer) {
+   return L.Marker.Mutable.extend({
+      options: {
+         mutable: "feature.properties"
+      }
+   });
+}
+
+function agregarExtras() {
+   console.log("No se implementa ningún extra en esta versión");
+}
+
+function crearControles() {
+   const container = document.querySelector("#controlbar"),
+         p = document.createElement("p");
+
+   p.textContent = "No hay herramientas para afinar la búsqueda";
+   container.appendChild(p);
+}
+
 
 // Carga uno u otro script dependiendo de la URL.
 (function() {
    function getScriptName() {
       const url  = new URL(window.location.href),
             num  = url.searchParams.get("num") || 1;
-      return `js/ej${num}.js`;
+
+      if(num>1) return num;
    }
 
-   const script = document.createElement("script");
-   script.src = getScriptName();
+   const num = getScriptName();
+   if(num<2) return;
+
+   let script = document.createElement("script");
+   script.src = `js/common.js`;
+   script.async = true;
+   document.querySelector("head").appendChild(script);
+
+   script = document.createElement("script");
+   script.src = `js/ej${num}.js`;
    script.async = true;
    document.querySelector("head").appendChild(script);
 })();

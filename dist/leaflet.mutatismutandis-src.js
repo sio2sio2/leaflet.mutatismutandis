@@ -511,7 +511,7 @@ CorrSys.prototype._normalizeName = function(name, prename) {
  */
 CorrSys.prototype.isCorrectable = function(attr, marker) {
    const arr = Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_1__["getProperty"])(marker.getData(), attr);
-   if(arr && arr.corr) return arr;
+   if(arr && arr.correctable) return arr.correctable;
    else null;
 }
 
@@ -598,7 +598,16 @@ CorrSys.prototype.prepare = function(obj, prop) {
          console.error("La propiedad no es un Array");
          continue
       }
-      o[name] = new _correctable_js__WEBPACK_IMPORTED_MODULE_0__["default"](o[name], this);
+      const correctable = new _correctable_js__WEBPACK_IMPORTED_MODULE_0__["default"](o[name], this);
+      // Issue #B.1
+      Object.defineProperty(o, name, {
+         get: () => {
+            const ret = Array.from(correctable).filter(e => e.filters.length === 0).map(e => e.value);
+            ret.correctable = correctable;
+            return ret;
+         }
+      });
+      // Fin #B.1
    }
 }
 
@@ -1114,8 +1123,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-L.MutableMarker = _mutableMarker_js__WEBPACK_IMPORTED_MODULE_0__["default"];
-L.MutableIcon = _mutableIcon_js__WEBPACK_IMPORTED_MODULE_1__["default"];
+L.Marker.Mutable = _mutableMarker_js__WEBPACK_IMPORTED_MODULE_0__["default"];
+L.Icon.Mutable = _mutableIcon_js__WEBPACK_IMPORTED_MODULE_1__["default"];
 L.utils = {
    load: _utils_index_js__WEBPACK_IMPORTED_MODULE_2__["load"],
    createMutableIconClass: _utils_index_js__WEBPACK_IMPORTED_MODULE_2__["createMutableIconClass"],
@@ -1176,7 +1185,7 @@ function getElement(e) {
 
 
 /**
- * @name L.MutableIcon
+ * @name L.Icon.Mutable
  * @extends L.DivIcon
  * @classdesc Extensión de `L.DivIcon <https://leafletjs.com/reference-1.4.0.html#divicon>`_
  * a fin de crear iconos definidos por una plantilla a la que se aplican
@@ -1198,7 +1207,7 @@ function getElement(e) {
  *    return this;
  * }
  *
- * const Icon = L.MutableIcon.extend({
+ * const Icon = L.Icon.Mutable.extend({
  *    options: {
  *       className: "icon",
  *       iconSize: [25, 34],
@@ -1214,10 +1223,10 @@ function getElement(e) {
  * const icon = new Icon();
  */
 /* harmony default export */ __webpack_exports__["default"] = (L.DivIcon.extend({
-   /** @lends L.MutableIcon.prototype */
+   /** @lends L.Icon.Mutable.prototype */
    // Issue #2
    statics: {
-      /** @lends L.MutableIcon */
+      /** @lends L.Icon.Mutable */
 
       /**
        * Informa si la clase de icono se encuentra lista para utilizarse.
@@ -2029,7 +2038,7 @@ function getCorrs(name) {
       // si se registra la corrección después de haber añadido la marca.
       if(!(arr = corr.isCorrectable(opts.attr, this))) {
          corr._prepare(this.getData(), opts.attr);
-         arr = Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getProperty"])(this.getData(), opts.attr);
+         arr = Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getProperty"])(this.getData(), opts.attr).correctable;
       }
 
       if(ret = arr.apply(this, name)) {
@@ -2038,7 +2047,7 @@ function getCorrs(name) {
          if(filter) for(const f of filter.getFilters(opts.attr)) this.applyF(f);
          // Fin issue #5
 
-         this._updateIcon({[opts.attr]: arr});
+         this._updateIcon({[opts.attr]: Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getProperty"])(this.getData(), opts.attr)});
       }
 
       // Issue #37
@@ -2077,7 +2086,7 @@ function getCorrs(name) {
    unapply: function(name) {  // Elimina la corrección.
       const corr     = this.options.corr,
             opts     = corr.getOptions(name),
-            arr      = Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getProperty"])(this.getData(), opts.attr);
+            arr      = Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getProperty"])(this.getData(), opts.attr).correctable;
       let ret;
 
       if(ret = arr.unapply(name)) {
@@ -2086,7 +2095,7 @@ function getCorrs(name) {
          if(filter) for(const f of filter.getFilters(opts.attr)) this.applyF(f);
          // Fin issue #5
 
-         this._updateIcon({[opts.attr]: arr});
+         this._updateIcon({[opts.attr]: Object(_utils_index_js__WEBPACK_IMPORTED_MODULE_0__["getProperty"])(this.getData(), opts.attr)});
       }
 
       // Issue #37
@@ -2469,6 +2478,9 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(L) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "grayFilter", function() { return grayFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "noFilteredIconCluster", function() { return noFilteredIconCluster; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMutableIconClass", function() { return createMutableIconClass; });
+/* harmony import */ var _mutableIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mutableIcon.js */ "./src/mutableIcon.js");
+
+
 // Issue #5
 /**
  * Pone en escala de grises un icono filtrado o elimina
@@ -2580,8 +2592,8 @@ function createMutableIconClass(name, options) {
    options.className = options.className || name;
 
    // Además de devolver el icono, lo precargamos en caso
-   // de que hubiera que ir a buscarlo en uin fichero externo
-   if(mutable) return L.MutableIcon.extend({options: options}).onready(() => true);
+   // de que hubiera que ir a buscarlo en un fichero externo
+   if(mutable) return _mutableIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"].extend({options: options}).onready(() => true);
    else {
       console.warn("Falta updater o converter: el icono no será mutable");
       return L.DivIcon.extend({options: options});

@@ -270,6 +270,7 @@ El código *Javascript* es este:
 
       // Mapa y obtención de la cartografía.
       const map = L.map("map").setView([37.390, -5.985], 15);
+      map.zoomControl.setPosition("bottomright");
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 18
       }).addTo(map);
@@ -299,23 +300,21 @@ El código *Javascript* es este:
          callback: xhr => {
             const datos = JSON.parse(xhr.responseText);
             Icono.onready(() => layer.addData(datos));
-            // Datos generales del mapa
             window.general = datos.features[0].properties;
          }
       });
 
+      window.Gym = Gym;
+      window.map = map;
+
       // Filtros y correcciones.
       agregarExtras.call(Gym);
-
-      window.Gym = Gym;
    }
 
    function crearIcono() {
-      const len = x => x.total === undefined?x.length:x.total;
-      // Define cómo se convierten los datos
-      // en las opciones de dibujo.
+      // Define cómo se convierten los datos en las opciones de dibujo.
       const converter = new L.utils.Converter(["piscina", "numact"])
-                                   .define("numact", "actividades", a => len(a))
+                                   .define("numact", "actividades", a => a.length)
                                    .define("piscina", "inst", i => i.includes("piscina"));
 
       // Cómo se actualiza la plantilla en función
@@ -344,13 +343,15 @@ El código *Javascript* es este:
       });
    }
 
+
    function crearMarca(layer) {
-      return L.Marker.Mutable.extend({
+      return L.MutableMarker.extend({
          options: {
             mutable: "feature.properties"
          }
       });
    }
+
 
    function agregarExtras() {
       console.log("No se implementa ningún extra en esta versión");
@@ -731,25 +732,6 @@ correcciones sobre esos dos datos, o sea:
       });
    }
 
-Además es muy importante que rectifiquemos en la función ``crearIcono()`` la
-definición de la conversión para calcular correctamente las longitudes de los
-arrays susceptibles de corrección:
-
-.. code-block:: js
-
-   const len = x => x.total === undefined?x.length:x.total;
-   const converter = new L.utils.Converter(["piscina", "numact"])
-                                .define("numact", "actividades", a => len(a))
-                                .define("piscina", "inst", i => i.includes("piscina"));
-
-En realidad, :code:`length` es la longitud del array del dato y este es siempre
-el mismo. Por tanto, si lo corregimos, no nos es útil ya que :code:`length`
-seguirá devolviendo el mismo valor. Para arrays "*corregibles*" la propiedad
-adecuada es :code:`total`, pero esta propiedad sólo existe si se llegó a definir
-alguna corrección para el dato. La solución más simple es definir una función
-que devuelva el valor de :code:`total` y, si este está indefinido, el de
-:code:`length`.
-
 Podemos cargar este segundo ejemplo en `esta segunda dirección
 <https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index.html?num=2>`_.
 
@@ -773,10 +755,10 @@ bien). Aplicar la corrección implicaría, en algún momento lo siguiente:
 
 .. code-block:: js
 
-   Gym.correct("actividades", {act: ["nlibre", "mlibre"]});
+   Gym.correct("instalaciones", {inst: ["piscina"]});
 
 Al aplicarse, para cada una de las marcas incluidas en `Gym.store <store>`_, se
-iríain recorriendo uno a uno todos los valores de *actividades* y aplicando la
+irán recorriendo uno a uno todos los valores de *instalaciones* y aplicando la
 función. Si se analiza el algoritmo se verá que el sentido de la corrección es
 eliminar las actividades que se encuentran en la lista que se suministra; a
 menos que se incluya también como verdadero el atributo *inv* (invertir el
@@ -795,11 +777,28 @@ Para revocar el efecto de la corrección:
 
 .. code-block:: js
 
-   Gym.uncorrect("actividades");
+   Gym.uncorrect("instalaciones");
    Gym.invoke("refresh");
 
-Los arrays que representan datos corregibles dejan de ser simplemente arrays y
-presentan el siguiente comportamiento:
+En principio, el efecto de una corrección es recalcular la propiedad array a fin
+de eliminar (o incluso añadir, como veremos más adelante) los elementos que
+estipule dicha corrección. Por tanto, si no llegamos a revocar la corrección:
+
+.. code-block:: js
+
+   g.getData().inst
+
+devolverá las instalaciones del gimnasio *g*, pero sin incluir la piscina aunque
+la tuviera. Ahora bien, pueden existir casos en los que nos interese conocer qué
+elementos han sido eliminados y cuál o cuáles han sido las correcciones que han
+provocado ese efecto. Para acceder a esta información, el array añade el
+atributo *correctable*:
+
+.. code-block:: js
+
+   g.getData().inst.correctable
+
+que es, a su vez, una suerte de *array* que presenta el siguiente comportamiento:
 
 - Los métodos y atributos propios de un *array* mantienen su comportamiento,
   (entre ellos, :code:`length`) por lo que siempre devolverán o recorrerán todos
@@ -822,9 +821,20 @@ presentan el siguiente comportamiento:
     atributos: *value* que almacena el valor original y *filters* con el
     significado ya definido.
 
-  En ambos casos, el objeto devuelve incluye incluye un método
-  :code:`.isPrimirive()` para saber si el valor original era un tipo primitivo o
-  un objeto.
+  En ambos casos, el objeto devuelto incluye un método :code:`.isPrimitive()`
+  para saber si el valor original era un tipo primitivo o un objeto.
+
+En consecuencia, podríamos escribir un código semejante a este para obtener una
+información completa del dato corregido:
+
+.. code-block:: js
+
+   for(const x of g.thisData().inst.correctable) {
+      const activo = x.filters.length === 0?"activo":"desactivo",
+            valor = x.isPrimitive()?x.value:x;
+
+      console.log(`${activo} -- ${valor}`);
+   }
 
 .. note:: Una misma corrección no es acomulativa: si una misma corrección se
    ise aplica una segunda vez, se desaplica la corrección previa y se aplica con

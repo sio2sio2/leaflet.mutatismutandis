@@ -679,7 +679,7 @@ export default L.Marker.extend({
       // si se registra la corrección después de haber añadido la marca.
       if(!(arr = corr.isCorrectable(opts.attr, this))) {
          corr._prepare(this.getData(), opts.attr);
-         arr = getProperty(this.getData(), opts.attr);
+         arr = getProperty(this.getData(), opts.attr).correctable;
       }
 
       if(ret = arr.apply(this, name)) {
@@ -688,7 +688,7 @@ export default L.Marker.extend({
          if(filter) for(const f of filter.getFilters(opts.attr)) this.applyF(f);
          // Fin issue #5
 
-         this._updateIcon({[opts.attr]: arr});
+         this._updateIcon({[opts.attr]: getProperty(this.getData(), opts.attr)});
       }
 
       // Issue #37
@@ -727,7 +727,7 @@ export default L.Marker.extend({
    unapply: function(name) {  // Elimina la corrección.
       const corr     = this.options.corr,
             opts     = corr.getOptions(name),
-            arr      = getProperty(this.getData(), opts.attr);
+            arr      = getProperty(this.getData(), opts.attr).correctable;
       let ret;
 
       if(ret = arr.unapply(name)) {
@@ -736,7 +736,7 @@ export default L.Marker.extend({
          if(filter) for(const f of filter.getFilters(opts.attr)) this.applyF(f);
          // Fin issue #5
 
-         this._updateIcon({[opts.attr]: arr});
+         this._updateIcon({[opts.attr]: getProperty(this.getData(), opts.attr)});
       }
 
       // Issue #37

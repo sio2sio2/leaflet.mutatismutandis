@@ -1,5 +1,5 @@
 function crearMarca(layer) {
-   return L.MutableMarker.extend({
+   return L.Marker.Mutable.extend({
       options: {
          mutable: "feature.properties",
          filter: layer

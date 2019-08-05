@@ -1,3 +1,5 @@
+import MutableIcon from "../mutableIcon.js";
+
 // Issue #5
 /**
  * Pone en escala de grises un icono filtrado o elimina
@@ -110,7 +112,7 @@ export function createMutableIconClass(name, options) {
 
    // Además de devolver el icono, lo precargamos en caso
    // de que hubiera que ir a buscarlo en un fichero externo
-   if(mutable) return L.MutableIcon.extend({options: options}).onready(() => true);
+   if(mutable) return MutableIcon.extend({options: options}).onready(() => true);
    else {
       console.warn("Falta updater o converter: el icono no será mutable");
       return L.DivIcon.extend({options: options});

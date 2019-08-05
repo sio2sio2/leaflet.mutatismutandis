@@ -10,7 +10,7 @@
            integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="></script>
 
    <!-- Plugin -->
-   <script src="../dist/leaflet.mutatismutandis.js"></script>
+   <script src="../dist/leaflet.mutatismutandis-src.js"></script>
 
    <!-- Scripts/CSS oara este ejemplo -->
    <link rel="stylesheet" href="css/index.css">
@@ -36,19 +36,22 @@
 
    <!-- Plantilla para controlar el mapa -->
    <template id="sidebar">
-      <section class="section-cardbox-content my-2 mx-3">
-         <fieldset class="form-group">
-            <legend>Opciones de búsqueda</legend>
-         </fieldset>
-         <template>
-         <div class="form-group row">
-            <label for="X" class="col-form label col-10"></label>
-            <div class="custom-switch custom-switch-xs pl-0 col-2">
-               <input type="checkbox" name="X" id="X" class="custom-switch-input" value="">
-               <label for="X" class="custom-switch-btn"></label>
-            </div>
-         </div>
-         </template>
-      </section>
+      <h3>Controles del mapa</h3>
+      <template>
+         <form class="section-cardbox-content my-2 mx-3">
+            <fieldset class="form-group">
+               <legend>Título de la sección</legend>
+            </fieldset>
+            <template>
+               <div class="form-group row">
+                  <label for="X" class="col-form label col-10"></label>
+                  <div class="custom-switch custom-switch-xs pl-0 col-2">
+                     <input type="checkbox" name="X" id="X" class="custom-switch-input" value="">
+                     <label for="X" class="custom-switch-btn"></label>
+                  </div>
+               </div>
+            </template>
+         </form>
+      </template>
    </template>
 </html>

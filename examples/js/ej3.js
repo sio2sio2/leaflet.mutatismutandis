@@ -1,5 +1,5 @@
 function crearMarca(layer) {
-   return L.MutableMarker.extend({
+   return L.Marker.Mutable.extend({
       options: {
          mutable: "feature.properties",
          filter: layer
@@ -39,36 +39,17 @@ function agregarExtras() {
 }
 
 function crearControles() {
-   const container = L.DomUtil.get("controlbar").firstElementChild,
-         template = container.querySelector("template").content.firstElementChild;
+   const container = L.DomUtil.get("controlbar");
 
-   function crearOpcion(id, legend, opts, auto) {
-      const item = template.cloneNode(true),
-            input = item.querySelector("input");
-
-      item.querySelector("label").textContent = legend;
-      item.querySelector("input").name = id;
-      item.querySelector("input").id = id;
-      item.querySelector("input").value = JSON.stringify(opts);
-      item.getElementsByTagName("label").forEach(label => label.setAttribute("for", id));
-
-      // En realidad, habría que comprobar si e.opts coincide con opts.
-      Gym.on(id, e => input.checked = true);
-      Gym.on(`un${id}`, e => input.checked = false);
-
-      input.addEventListener("change", e => {
-         const [action, name] = id.split(":");
-
-         if(e.target.checked) Gym[action](name, opts, auto);
-         else Gym[`un${action}`](name);
-
-         Gym.invoke("refresh");
-      });
-      
-
-      return item;
-   }
-
-   container.appendChild(crearOpcion("correct:actividades", "Desechar pilates y zumba", {act: ["pilates", "zumba"]}));
-   container.appendChild(crearOpcion("correct:instalaciones", "Desechar musculación", {inst: ["musculación"]}, true));
+   container.appendChild(crearGrupo("correct:instalaciones", {
+      titulo: "Desechar instalaciones",
+      field: "inst",
+      items: inst,
+      auto: true
+   }));
+   container.appendChild(crearGrupo("correct:actividades", {
+      titulo: "Desechar actividades",
+      field: "act",
+      items: act
+   }));
 }

@@ -36,7 +36,7 @@ function getElement(e) {
 
 
 /**
- * @name L.MutableIcon
+ * @name L.Icon.Mutable
  * @extends L.DivIcon
  * @classdesc Extensión de `L.DivIcon <https://leafletjs.com/reference-1.4.0.html#divicon>`_
  * a fin de crear iconos definidos por una plantilla a la que se aplican
@@ -58,7 +58,7 @@ function getElement(e) {
  *    return this;
  * }
  *
- * const Icon = L.MutableIcon.extend({
+ * const Icon = L.Icon.Mutable.extend({
  *    options: {
  *       className: "icon",
  *       iconSize: [25, 34],
@@ -74,10 +74,10 @@ function getElement(e) {
  * const icon = new Icon();
  */
 export default L.DivIcon.extend({
-   /** @lends L.MutableIcon.prototype */
+   /** @lends L.Icon.Mutable.prototype */
    // Issue #2
    statics: {
-      /** @lends L.MutableIcon */
+      /** @lends L.Icon.Mutable */
 
       /**
        * Informa si la clase de icono se encuentra lista para utilizarse.
