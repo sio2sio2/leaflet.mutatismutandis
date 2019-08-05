@@ -40,14 +40,15 @@ function agregarExtras() {
    this.registerF("actmin", {
       attrs: "actividades",
       func: function(opts) {
-         return this.getData().actividades.total < opts.min;
+         return this.getData().actividades.length < opts.min;
       }
    });
 
    this.registerF("instmin", {
       attrs: "inst",
+      // {opts: {min: 1}}
       func: function(opts) {
-         return this.getData().inst.total < opts.min;
+         return this.getData().inst.length < opts.min;
       }
    });
 
@@ -61,7 +62,62 @@ function agregarExtras() {
    });
 }
 
+
 function crearControles() {
-   const container = L.DomUtil.get("controlbar").firstElementChild;
-   console.log(container);
+   const container = L.DomUtil.get("sidebar");
+
+   container.appendChild(crearGrupo("correct:instalaciones", {
+      titulo: "Desechar instalaciones",
+      field: "inst",
+      items: inst,
+      auto: true
+   }));
+   container.appendChild(crearGrupo("correct:actividades", {
+      titulo: "Desechar actividades",
+      field: "act",
+      items: act
+   }));
+
+   Array.from(document.getElementById("filterbar").content.children)
+             .forEach(e => container.appendChild(e));
+   document.getElementById("filterbar").remove();
+
+   container.lastChild.id = "filterbar";
+
+   container.lastChild.appendChild(crearFiltro("filter:actmin", {
+      titulo: "Eliminar gimnasios sin actividad",
+      opts: {min: 1}
+   }));
+
+   container.lastChild.appendChild(crearFiltro("filter:instmin", {
+      titulo: "Eliminar gimnasios sin instalación",
+      opts: {min: 1}
+   }));
+}
+
+
+function crearFiltro(name, opts) {
+   const template = document.getElementById("filterbar").firstElementChild.content,
+         item = template.firstElementChild.cloneNode(true),
+         input = item.querySelector("input"),
+         id = name.replace(":", "_");
+
+   item.querySelector("input").name = name;
+   item.querySelector("input").id = id;
+   item.querySelector("label").textContent = opts.titulo;
+   item.querySelector("input").value = JSON.stringify(opts.opts);
+   item.querySelectorAll("label").forEach(label => label.setAttribute("for", id));
+
+   // Al (des)marcar un ítem, se (des)aplica el filtro
+   // tomando las opciones contenidas en value.
+   input.addEventListener("change", e => {
+      const name = e.target.name.split(":")[1];
+
+      if(e.target.checked) Gym.filter(name, JSON.parse(e.target.value));
+      else Gym.unfilter(name);
+
+      Gym.invoke("refresh");
+   });
+
+   return item;
 }

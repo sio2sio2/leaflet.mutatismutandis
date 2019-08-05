@@ -83,10 +83,11 @@ function crearIcono() {
 function crearBarraLateral() {
    const div = document.getElementById("map"),
          el = L.DomUtil.create("section", "leaflet-control", div);
-   el.id = "controlbar";
+   el.id = "sidebar";
 
-   Array.from(document.getElementById("sidebar").content.children)
+   Array.from(document.getElementById("controlbar").content.children)
              .forEach(e => el.appendChild(e));
+   document.getElementById("controlbar").remove();
 
    // Deshabilita los eventos del mapa al estar sobre la barra lateral
    el.addEventListener("dblclick", e => e.stopPropagation());
@@ -112,7 +113,7 @@ function agregarExtras() {
 }
 
 function crearControles() {
-   const container = document.querySelector("#controlbar"),
+   const container = document.getElementById("sidebar"),
          p = document.createElement("p");
 
    p.textContent = "No hay herramientas para afinar la búsqueda";

@@ -4,23 +4,39 @@ html, body, #map {
    margin: 0;
 }
 
-#controlbar {
+#sidebar {
    box-sizing: border-box;
    height: 100%;
    width: 400px;
    margin: 0;
-   background-color: white;
+   background-color: #eee;
+   overflow: auto;
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
-   #controlbar {
+   #sidebar {
       width: 350px;
    }
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
-   #controlbar {
+   #sidebar {
       wotdh: 100vw;
       top: 0; left: 0; bottom: 0:
    }
+}
+
+#sidebar h3 {
+   background-color: #28a745;
+   color: white;
+   padding: 5px 10px;
+   text-align: center;
+}
+
+#sidebar form {
+   background-color: white;
+}
+
+#sidebar legend {
+   background-color: #eee;
 }

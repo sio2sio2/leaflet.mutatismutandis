@@ -2,7 +2,7 @@
 // eliminar o reponer datos del mapa. Por
 // ejemplos cada una de las instalaciones posibles.
 function crearGrupo(corr, opts) {
-   const container = L.DomUtil.get("controlbar"),
+   const container = L.DomUtil.get("sidebar"),
          group = container.querySelector("template").content.firstElementChild.cloneNode(true),
          itemDiv = group.querySelector("template").content.firstElementChild;
 

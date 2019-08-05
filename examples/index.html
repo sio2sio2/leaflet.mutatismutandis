@@ -34,9 +34,9 @@
    <!-- Bootstrap 4 Native (sin JQuery) -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap.native@2.0.26/dist/bootstrap-native-v4.min.js"></script>
 
-   <!-- Plantilla para controlar el mapa -->
-   <template id="sidebar">
-      <h3>Controles del mapa</h3>
+   <!-- Plantilla para correcciones -->
+   <template id="controlbar">
+      <h3>Control de correcciones</h3>
       <template>
          <form class="section-cardbox-content my-2 mx-3">
             <fieldset class="form-group">
@@ -53,5 +53,22 @@
             </template>
          </form>
       </template>
+   </template>
+
+
+   <!-- Plantilla para filtros -->
+   <template id="filterbar">
+      <h3>Control de filtros</h3>
+      <form class="section-cardbox-content my-2 mx-3">
+         <template>
+            <div class="form-group row">
+               <label for="X" class="col-form label col-10"></label>
+               <div class="custom-switch custom-switch-xs pl-0 col-2">
+                  <input type="checkbox" name="X" id="X" class="custom-switch-input" value="">
+                  <label for="X" class="custom-switch-btn"></label>
+               </div>
+            </div>
+         </template>
+      </form>
    </template>
 </html>

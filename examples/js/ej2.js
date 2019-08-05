@@ -1,13 +1,3 @@
-function crearMarca(layer) {
-   return L.Marker.Mutable.extend({
-      options: {
-         mutable: "feature.properties",
-         filter: layer
-      }
-   });
-}
-
-
 function agregarExtras() {
    this.register("instalaciones", {
       attr: "inst",
@@ -28,7 +18,7 @@ function agregarExtras() {
 
 
 function crearControles() {
-   const container = L.DomUtil.get("controlbar");
+   const container = L.DomUtil.get("sidebar");
    // Podríamos hacer otro tanto con las actividades.
    container.appendChild(crearGrupo("correct:instalaciones", {
       titulo: "Desechar instalaciones",
