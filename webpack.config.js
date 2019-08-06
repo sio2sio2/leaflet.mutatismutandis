@@ -2,7 +2,7 @@ module.exports = env => {
    let mode;
 
    switch(env.output) {
-      case "development":
+      case "debug":
       case "src":
          mode = "development";
          break;

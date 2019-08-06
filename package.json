@@ -6,8 +6,7 @@
     "build": "webpack --env.output=min",
     "bundle": "webpack --env.output=bundle",
     "src": "webpack --env.output=src",
-    "watch": "webpack --env.output=development --watch",
-    "debug": "webpack-dev-server --env.output=development --open chromium"
+    "debug": "webpack-dev-server --env.output=debug --open chromium"
   },
   "license": "MIT",
   "keywords": [],
@@ -41,13 +40,14 @@
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",
     "regenerator-runtime": "^0.13.3",
-    "webpack": "^4.36.1",
+    "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2",
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
-    "leaflet": "^1.5.1",
-    "core-js": "^3.1.4"
+    "copy-webpack-plugin": "^5.0.4",
+    "core-js": "^3.1.4",
+    "leaflet": "^1.5.1"
   }
 }

@@ -599,7 +599,7 @@ CorrSys.prototype.prepare = function(obj, prop) {
          continue
       }
       const correctable = new _correctable_js__WEBPACK_IMPORTED_MODULE_0__["default"](o[name], this);
-      // Issue #B.1
+      // Issue #B.2
       Object.defineProperty(o, name, {
          get: () => {
             const ret = Array.from(correctable).filter(e => e.filters.length === 0).map(e => e.value);
@@ -607,7 +607,7 @@ CorrSys.prototype.prepare = function(obj, prop) {
             return ret;
          }
       });
-      // Fin #B.1
+      // Fin #B.2
    }
 }
 

@@ -6,6 +6,7 @@ module.exports = env => {
 
    switch(env.output) {
       case "min":
+      case "debug":
          filename = "[name].js";
          break;
       case "src":
@@ -29,7 +30,7 @@ module.exports = env => {
       ]
    }
 
-   if(env.output === "src" || env.output === "min") {
+   if(env.output !== "bundle") {
       config.externals = {
          leaflet: {
             root: "L",

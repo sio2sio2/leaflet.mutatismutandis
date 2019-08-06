@@ -192,7 +192,7 @@ Plantilla
 '''''''''
 Los iconos tendrán un aspecto semejante a este:
 
-.. image:: examples/images/chupachups.png
+.. image:: src.examples/images/chupachups.png
 
 que se construyen a partir de una plantilla porque hay dos aspectos que
 dependen de parte de los datos:
@@ -209,7 +209,7 @@ Resultado
 '''''''''
 Nuestra aplicación, una vez hecha, debería lucir así:
 
-.. image:: examples/images/captura.png
+.. image:: src.examples/images/captura.png
 
 Y podemos visitarla a través de `este enlace
 <https://sio2sio2.github.io/leaflet.mutatismutandis/examples/index.html>`_.

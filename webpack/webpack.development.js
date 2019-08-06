@@ -1,30 +1,38 @@
 // webpack/webpack.development.js
-const merge = require('webpack-merge');
+const merge = require('webpack-merge'),
+      CopyPlugin = require('copy-webpack-plugin'),
+      webpack = require("webpack");
 
 module.exports = env => {
    const common = require('./webpack.common.js')(env);
+   let filenamemap = `${common.output.filename}.map`;
+   if(env.output === "debug") filenamemap = `dist/${filenamemap}`;
 
    const config = {
       mode: "development",
+      devtool: false,
       devServer: {
-         contentBase: env.disk && require("path").resolve(__dirname, "../dist"),
-         writeToDisk: env.disk
-      }
+         openPage: "index.html?num=1"
+      },
+      plugins: [
+         new webpack.SourceMapDevToolPlugin({
+            filename: filenamemap
+         })
+      ]
    }
 
-   if(env.output === "src") {
-      const webpack = require("webpack");
-
-      Object.assign(config, {
-         devtool: false,
+   const config_extra = env.output !== "debug"?{}:
+      {
+         output: {
+            filename: `dist/${common.output.filename}`
+         },
          plugins: [
-            new webpack.SourceMapDevToolPlugin({
-               filename: '[name]-src.js.map'
-            })
+            new CopyPlugin([
+               {from: "examples", to: ".", ignore: ["*.swp"] }
+            ])
          ]
-      });
-   }
-   else config.devtool = "inline-source-map";
+      }
 
-   return merge(common, config);
+   return merge(common, config, config_extra);
+
 }
