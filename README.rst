@@ -674,8 +674,8 @@ propiedades que interesan se encuentrarán en *feature.properties*.
           icono no es el mismo que el que tenía cuando desapareció del mapa.
 
 La API de `L.Marker.Mutable`_ no está completa, falta aún la parte de la `api
-referente a las correcciones <api-correcciones>`__ y la parte de la `api
-referente a los filtros <api-filtros>`__.
+para correcciones`_ y la parte de la `api para
+filtros`_.
 
 Correcciones
 ============
@@ -837,8 +837,6 @@ información completa del dato corregido:
    ise aplica una segunda vez, se desaplica la corrección previa y se aplica con
    las nuevas opciones.
 
-.. _auto-corr:
-
 Correcciones automáticas
 ------------------------
 Puede darse la circunstancia de que los datos que presentan las entidades no
@@ -920,8 +918,6 @@ Hay dos puntualizaciones pertinentes:
 
       Gym.correct("actividades", {act: ["pilates"]});
 
-.. _corr-plus:
-
 Correcciones adictivas
 ----------------------
 Hay, finalmente, otro tipo de corrección algo más extravagante, que permite añadir
@@ -968,9 +964,8 @@ ejecuta una sólo vez y devuelve los elementos a añadir.
 
 .. warning:: La función debe devolver los elementos, no añadirlos ella al array.
 
-.. _api-correcciones:
-API
----
+API para correcciones
+---------------------
 Ahora estamos en condiciones de añadir a la API de `L.Marker.Mutable`_ más métodos
 y eventos, relacionados estos con las correcciones:
 
@@ -1246,9 +1241,8 @@ de que una marca quede filtrada:
          iconFunctionCreate: L.utils.noFilteredIconCluster
       }).addTo(map);
 
-.. _api-filtros:
-API
----
+API para filtros
+----------------
 Para completar la API de `L.Marker.Mutable`_, faltan aún los métodos y eventos
 asociados al filtrado:
 
@@ -1482,8 +1476,8 @@ Otras definiciones
 .. [#] Falta aún otra que es la definición de la clase de marca (*Gym*), pero
    esa se encuentra en el otro fichero.
 
-.. [#] Ya veremos que es posible definir `correcciones que añaden valores
-   <corr-plus>`_`
+.. [#] Ya veremos que es posible definir `correcciones adictivas`_ que añaden
+   valores.
 
 .. [#] Si se ha proporcionado una URL, se deberá hacer una petición que
    consume un tiempo, por lo que entre el momento en que se crea el icono
