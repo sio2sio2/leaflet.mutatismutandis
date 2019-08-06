@@ -569,8 +569,7 @@ propiedades que interesan se encuentrarán en *feature.properties*.
       Método del objeto que modifica los valores de los datos asociados. Este
       método está pensado para modificar datos que no sean series de valores
       (como en el ejemplo son *inst* y *actividades*), ya que para la
-      modificación de series se utiliza el `sistema de correcciones
-      <correcciones>`.
+      modificación de series se utiliza el sistema de `correcciones`_.
 
       Los datos deben modificarse a través de este método (o el sistema de
       correcciones); y no directamente, porque sólo así podrá actualizarse
@@ -674,11 +673,8 @@ propiedades que interesan se encuentrarán en *feature.properties*.
           oculto cambiaron las opciones de dibujp, por lo que el aspecto del
           icono no es el mismo que el que tenía cuando desapareció del mapa.
 
-La API de `L.Marker.Mutable`_ no está completa, falta aún `la parte referente a
-las correcciones <api-correcciones>`_` y `la parte referente a los filtros
-<api-filtros>`_.
-
-.. _correcciones:
+La API de `L.Marker.Mutable`_ no está completa, falta aún la parte de la `api`_
+referente a las correcciones y la parte de la `api-1`_ referente a los filtros.
 
 Correcciones
 ============
@@ -971,8 +967,6 @@ ejecuta una sólo vez y devuelve los elementos a añadir.
 
 .. warning:: La función debe devolver los elementos, no añadirlos ella al array.
 
-.. _api-correcciones:
-
 API
 ---
 Ahora estamos en condiciones de añadir a la API de `L.Marker.Mutable`_ más métodos
@@ -1064,7 +1058,7 @@ y eventos, relacionados estos con las correcciones:
      provocaron la aplicación automática y los valores las opciones de
      aplicación automática.
 
-  **appliedCorrections(name, opts, type)**
+  **appliedCorrection(name, opts, type)**
    Método del constructor que permite saber si la aplicación de una corrección
    es irrelevante, porque ya existen otras aplicadas que ya provocan ese efecto:
 
@@ -1112,8 +1106,6 @@ y eventos, relacionados estos con las correcciones:
 
 Para terminar de definir el API restan aún los métodos y eventos relacionados
 con el filtrado.
-
-.. _filtros:
 
 Filtros
 =======
@@ -1251,8 +1243,6 @@ de que una marca quede filtrada:
       const layer = L.markerClusterGroup({
          iconFunctionCreate: L.utils.noFilteredIconCluster
       }).addTo(map);
-
-.. _api-filtros:
 
 API
 ---
