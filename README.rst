@@ -673,8 +673,9 @@ propiedades que interesan se encuentrarán en *feature.properties*.
           oculto cambiaron las opciones de dibujp, por lo que el aspecto del
           icono no es el mismo que el que tenía cuando desapareció del mapa.
 
-La API de `L.Marker.Mutable`_ no está completa, falta aún la parte de la `api`_
-referente a las correcciones y la parte de la `api-1`_ referente a los filtros.
+La API de `L.Marker.Mutable`_ no está completa, falta aún la parte de la `api
+referente a las correcciones <api-correcciones>`__ y la parte de la `api
+referente a los filtros <api-filtros>`__.
 
 Correcciones
 ============
@@ -967,6 +968,7 @@ ejecuta una sólo vez y devuelve los elementos a añadir.
 
 .. warning:: La función debe devolver los elementos, no añadirlos ella al array.
 
+.. _api-correcciones:
 API
 ---
 Ahora estamos en condiciones de añadir a la API de `L.Marker.Mutable`_ más métodos
@@ -1244,6 +1246,7 @@ de que una marca quede filtrada:
          iconFunctionCreate: L.utils.noFilteredIconCluster
       }).addTo(map);
 
+.. _api-filtros:
 API
 ---
 Para completar la API de `L.Marker.Mutable`_, faltan aún los métodos y eventos
