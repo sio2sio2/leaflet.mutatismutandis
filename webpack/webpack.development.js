@@ -12,6 +12,8 @@ module.exports = env => {
       mode: "development",
       devtool: false,
       devServer: {
+         contentBase: false,
+         open: "chromium",
          openPage: "index.html?num=1"
       },
       plugins: [

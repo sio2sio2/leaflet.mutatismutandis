@@ -6,7 +6,7 @@
     "build": "webpack --env.output=min",
     "bundle": "webpack --env.output=bundle",
     "src": "webpack --env.output=src",
-    "debug": "webpack-dev-server --env.output=debug --open chromium"
+    "debug": "webpack-dev-server --env.output=debug"
   },
   "license": "MIT",
   "keywords": [],
@@ -39,14 +39,18 @@
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^5.0.4",
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "regenerator-runtime": "^0.13.3",
+    "url-loader": "^2.1.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2",
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
-    "copy-webpack-plugin": "^5.0.4",
     "core-js": "^3.1.4",
     "leaflet": "^1.5.1"
   }

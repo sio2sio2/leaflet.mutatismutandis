@@ -1,6 +1,7 @@
 // webpack/webpack.common.js
 const webpack = require("webpack"),
-      merge = require("webpack-merge");
+      merge = require("webpack-merge"),
+      MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = env => {
    let filename;
@@ -19,7 +20,7 @@ module.exports = env => {
 
    const config = {
       entry: {
-         "leaflet.mutatismutandis": "./src/index.js"
+         "leaflet.mutatismutandis": ["./src/index.js"]
       },
       output: {
          filename: filename
@@ -31,7 +32,33 @@ module.exports = env => {
       ]
    }
 
-   if(env.output === "bundle") return config;
+   if(env.output === "bundle") {
+      config.entry["leaflet.mutatismutandis"].push("leaflet/dist/leaflet.css");
+      return merge(config, {
+         module: {
+            rules: [
+               {
+                  test: /\.css$/,
+                  use: [MiniCssExtractPlugin.loader,
+                        "css-loader"]
+               },
+               {
+                  test: /\.(png|jpe?g|gif|svg)$/i,
+                  use: [
+                     'url-loader?limit=4096&name=images/[name].[ext]'
+                  ]
+               }
+            ]
+         },
+         plugins: [
+            new MiniCssExtractPlugin({
+               filename: "[name].bundle.css",
+               chunkFilename: "[id].css"
+            })
+         ]
+
+      });
+   }
    else {
       return merge(config, {
          externals: {
