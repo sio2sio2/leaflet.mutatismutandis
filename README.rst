@@ -78,6 +78,13 @@ Si se pretende usar directamente desde el **navegador**:
    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
    <script src="https://unpkg.com/leaflet.mutatismutandis@1.0.0/dist/leaflet.mutatismutandis.js"></script>
 
+o bien, con la versión *bundle* que contiene el código de Leaflet_:
+
+.. code-block:: html
+
+   <link rel="stylesheet" href="https://unpkg.com/leaflet.mutatismutandis@1.0.0/dist/leaflet.mutatismutandis.bundle.css">
+   <script src="https://unpkg.com/leaflet.mutatismutandis@1.0.0/dist/leaflet.mutatismutandis.bundle.js"></script>
+
 Si se pretende usar para un desarrollo con NodeJS_:
 
 .. code-block:: console
