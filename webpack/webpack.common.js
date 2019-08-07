@@ -1,5 +1,6 @@
 // webpack/webpack.common.js
-const webpack = require("webpack");
+const webpack = require("webpack"),
+      merge = require("webpack-merge");
 
 module.exports = env => {
    let filename;
@@ -30,22 +31,23 @@ module.exports = env => {
       ]
    }
 
-   if(env.output !== "bundle") {
-      config.externals = {
-         leaflet: {
-            root: "L",
-            amd: "leaflet",
-            commonjs: "leaflet",
-            commonjs2: "leaflet"
+   if(env.output === "bundle") return config;
+   else {
+      return merge(config, {
+         externals: {
+            leaflet: {
+               root: "L",
+               amd: "leaflet",
+               commonjs: "leaflet",
+               commonjs2: "leaflet"
+            }
+         },
+         output: {
+            filename: filename,
+            libraryTarget: "umd",
+            umdNamedDefine: true,
+            library: "Lcz"
          }
-      };
-
-      Object.assign(config.output, {
-         libraryTarget: "umd",
-         umdNamedDefine: true,
-         library: "Lcz"
       });
    }
-
-   return config;
 }
