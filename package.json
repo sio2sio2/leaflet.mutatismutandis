@@ -1,6 +1,6 @@
 {
   "name": "leaflet.mutatismutandis",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "/dist/leaflet.mutatismutandis.js",
   "scripts": {
     "build": "webpack --env.output=min",
@@ -9,7 +9,12 @@
     "debug": "webpack-dev-server --env.output=debug"
   },
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+     "leaflet",
+     "plugin",
+     "map",
+     "gis"
+  ],
   "browserslist": {
     "production": [
       "cover 95% in ES"
