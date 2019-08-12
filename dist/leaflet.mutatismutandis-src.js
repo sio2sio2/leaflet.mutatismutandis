@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("leaflet"));
 	else if(typeof define === 'function' && define.amd)
-		define("Lcz", ["leaflet"], factory);
-	else if(typeof exports === 'object')
-		exports["Lcz"] = factory(require("leaflet"));
-	else
-		root["Lcz"] = factory(root["L"]);
+		define(["leaflet"], factory);
+	else {
+		var a = typeof exports === 'object' ? factory(require("leaflet")) : factory(root["L"]);
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
 })(window, function(__WEBPACK_EXTERNAL_MODULE_leaflet__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
