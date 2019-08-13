@@ -1160,10 +1160,13 @@ __webpack_require__.r(__webpack_exports__);
  */
 function getElement(e) {
    if(typeof e === "string" || e instanceof String) {
-      e = new DomParser().parseFromString("<div>" + e + "</div>", 'text/html');
-      e.container = true;
+      const div = document.createElement("div");
+      div.innerHTML = e;
+      e = document.createDocumentFragment();
+      Array.from(div.children).forEach(node => e.appendChild(node));
    }
-   else if(e instanceof Document || e instanceof DocumentFragment) {
+
+   if(e instanceof Document || e instanceof DocumentFragment) {
       if(e.children.length === 1) {
          e = e.firstElementChild.cloneNode(true);
          e.container = false;
