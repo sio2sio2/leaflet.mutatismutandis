@@ -23,7 +23,14 @@ function crearGrupo(corr, opts) {
             values = e.opts[opts.field],
             inv = e.opts.inv;
 
-      inputs.forEach(i => i.checked = !!(inv ^ values.includes(i.value)));
+      inputs.forEach(i => {
+         const res = !!(inv ^ values.includes(i.value));
+         i.checked = res;
+         // Si se aplica automáticamente la corrección,
+         // se deshabilita el control, porque sólo puede
+         // desaplicarse, desaplicando la corrección manual originaria.
+         if(e.auto && res) i.disabled = true;
+      });
    });
 
    // Al desaplicar la corrección, deben desmarcarse
@@ -32,7 +39,7 @@ function crearGrupo(corr, opts) {
       const [action, name] = corr.split(":"),
             inputs = Array.from(group.querySelectorAll("input"));
 
-      inputs.forEach(i => i.checked = false);
+      inputs.forEach(i => i.disabled = i.checked = false);
    });
 
    return group;

@@ -1,6 +1,6 @@
 {
   "name": "leaflet.mutatismutandis",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "/dist/leaflet.mutatismutandis.js",
   "scripts": {
     "build": "webpack --env.output=min",
