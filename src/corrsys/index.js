@@ -250,7 +250,8 @@ CorrSys.prototype.prepare = function(obj, prop) {
       // Issue #B.2
       Object.defineProperty(o, name, {
          get: () => {
-            const ret = Array.from(correctable).filter(e => e.filters.length === 0).map(e => e.value);
+            const ret = Array.from(correctable).filter(e => e.filters.length === 0)
+                                               .map(e => e.isPrimitive()?e.value:e);
             ret.correctable = correctable;
             return ret;
          }

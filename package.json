@@ -1,6 +1,6 @@
 {
   "name": "leaflet.mutatismutandis",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "/dist/leaflet.mutatismutandis.js",
   "scripts": {
     "build": "webpack --env.output=min",
@@ -10,10 +10,10 @@
   },
   "license": "MIT",
   "keywords": [
-     "leaflet",
-     "plugin",
-     "map",
-     "gis"
+    "leaflet",
+    "plugin",
+    "map",
+    "gis"
   ],
   "browserslist": {
     "production": [
