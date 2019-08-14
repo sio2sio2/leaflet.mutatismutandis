@@ -71,10 +71,6 @@ function confNoDeps() {
             commonjs: "leaflet",
             commonjs2: "leaflet"
          }
-      },
-      output: {
-         libraryTarget: "umd",
-         umdNamedDefine: false
       }
    }
 } 
@@ -135,7 +131,10 @@ module.exports = env => {
          [name]: ["./src/index.js"]
       },
       output: {
-         filename: filename
+         filename: filename,
+         libraryTarget: "umd",
+         umdNamedDefine: false,
+         libraryExport: "default"
       },
       plugins: [
          new webpack.ProvidePlugin({

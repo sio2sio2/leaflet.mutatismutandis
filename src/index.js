@@ -12,3 +12,5 @@ L.utils = {
    grayFilter: grayFilter,
    noFilteredIconCluster: noFilteredIconCluster
 }
+
+export default MutableMarker;

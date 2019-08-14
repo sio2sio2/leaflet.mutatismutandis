@@ -1,7 +1,7 @@
 {
   "name": "leaflet.mutatismutandis",
   "description": "Plugin que facilita la creación de mapas de búsqueda",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "/dist/leaflet.mutatismutandis.js",
   "scripts": {
     "build": "webpack --env.output=min",
