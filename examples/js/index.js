@@ -124,13 +124,12 @@ function crearControles() {
 // Carga uno u otro script dependiendo de la URL.
 (function() {
    function getScriptName() {
-      const url  = new URL(window.location.href),
-            num  = url.searchParams.get("num") || 1;
-
-      if(num>1) return num;
+      const url  = new URL(window.location.href);
+      return url.searchParams.get("num") || 1;
    }
 
    const num = getScriptName();
+   console.log("DEBUG", num);
    if(num<2) return;
 
    let script = document.createElement("script");
