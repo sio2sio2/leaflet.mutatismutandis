@@ -29,37 +29,6 @@ function confBabel(env) {
    }
 }
 
-// Configuración adicional para el sabor bundle,
-// o sea, el que contiene todas las dependencias.
-function confBundle() {
-   return {
-      entry: {
-         [name]: ["leaflet/dist/leaflet.css"]
-      },
-      module: {
-         rules: [
-            {
-               test: /\.css$/,
-               use: [MiniCssExtractPlugin.loader,
-                     "css-loader"]
-            },
-            {
-               test: /\.(png|jpe?g|gif|svg)$/i,
-               use: [
-                  'url-loader?limit=4096&name=images/[name].[ext]'
-               ]
-            }
-         ]
-      },
-      plugins: [
-         new MiniCssExtractPlugin({
-            filename: "[name].bundle.css",
-            chunkFilename: "[id].css"
-         })
-      ]
-   }
-}
-
 
 // Configuración sin dependencias
 function confNoDeps() {
@@ -84,15 +53,7 @@ function confDev(filename) {
          new webpack.SourceMapDevToolPlugin({
             filename: `${filename}.map`
          })
-      ]
-   }
-}
-
-
-//Configuración adicional para depuración
-//(Se requiere copiar el ejemplo en el servidor)
-function confDebug() {
-   return {
+      ],
       devServer: {
          contentBase: path.resolve(__dirname, "examples"),
          publicPath: "/dist/",
@@ -103,14 +64,15 @@ function confDebug() {
    }
 }
 
+
 module.exports = env => {
    switch(env.output) {
       case "debug":
-      case "src":
-         mode = "development";
+      case "srcdebug":
+         env.mode = "development";
          break;
       default:
-         mode = "production";
+         env.mode = "production";
    }
 
    switch(env.output) {
@@ -121,12 +83,15 @@ module.exports = env => {
       case "src":
          filename = "[name]-src.js";
          break
+      case "srcdebug":
+         filename = "[name]-debug.js";
+         break;
       default:
          filename = `[name].${env.output}.js`;
    }
 
    const common = {
-      mode: mode,
+      mode: env.mode,
       entry: {
          [name]: ["./src/index.js"]
       },
@@ -145,8 +110,8 @@ module.exports = env => {
 
    return merge.smart(
       common,
-      mode === "production"?confBabel(env):confDev(filename),
-      env.output === "bundle"?confBundle():confNoDeps(),
-      env.output === "debug"?confDebug():null
+      env.mode === "production"?confBabel(env):confDev(filename),
+      env.output === "src"?{optimization: {minimize: false}}:null,
+      confNoDeps(),
    )
 }
