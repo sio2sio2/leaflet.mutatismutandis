@@ -1,3 +1,8 @@
+if(process.env.output === "bundle") {
+   require("leaflet-defaulticon-compatibility");
+   require("leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css");
+}
+
 import MutableMarker from "./mutableMarker.js";
 import MutableIcon from "./mutableIcon.js";
 import {load, createMutableIconClass, Converter,

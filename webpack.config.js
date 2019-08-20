@@ -1,7 +1,9 @@
 const webpack = require("webpack"),
       merge = require("webpack-merge"),
       path = require("path"),
-      name = require("./package.json").name;
+      MiniCssExtractPlugin = require("mini-css-extract-plugin"),
+      pack = require("./package.json"),
+      name = pack.name;
 
 
 // Configuración para Babel
@@ -25,6 +27,37 @@ function confBabel(env) {
             },
          ]
       }
+   }
+}
+
+
+// Configuración adicional para el sabor bundle,
+function confBundle() {
+   return {
+      entry: {
+         [name]: ["leaflet/dist/leaflet.css"]
+      },
+      module: {
+         rules: [
+            {
+               test: /\.css$/,
+               use: [MiniCssExtractPlugin.loader,
+                     "css-loader"]
+            },
+            {
+               test: /\.(png|jpe?g|gif|svg)$/i,
+               use: [
+                  'url-loader?limit=4096&name=images/[name].[ext]'
+               ]
+            }
+         ]
+      },
+      plugins: [
+         new MiniCssExtractPlugin({
+            filename: "[name].bundle.css",
+            chunkFilename: "[id].css"
+         })
+      ]
    }
 }
 
@@ -103,6 +136,13 @@ module.exports = env => {
       plugins: [
          new webpack.ProvidePlugin({
             L: "leaflet"
+         }),
+         new webpack.DefinePlugin({
+            "process.env": {
+               output: JSON.stringify(env.output),
+               development: JSON.stringify(env.mode === "development"),
+               version: JSON.stringify(pack.version)
+            }
          })
       ]
    }
@@ -111,6 +151,6 @@ module.exports = env => {
       common,
       env.mode === "production"?confBabel(env):confDev(filename),
       env.output === "src"?{optimization: {minimize: false}}:null,
-      confNoDeps(),
+      env.output === "bundle"?confBundle():confNoDeps()
    )
 }
