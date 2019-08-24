@@ -387,9 +387,9 @@ Este fichero tiene dos partes bien diferencias\ [#]_:
 
      Icono.onready(() => layer.addData(datos));
       
-   .. note:: En este caso, al estar la definición de la plantilla incluida
-      dentro del propio HTML, la prevención es vana; pero si la plantilla se
-      hubiera cargado de un fichero externo, entonces sería indispensable.
+  .. note:: En este caso, al estar la definición de la plantilla incluida
+     dentro del propio HTML, la prevención es vana; pero si la plantilla se
+     hubiera cargado de un fichero externo, entonces sería indispensable.
 
 Lo realmente enjundioso en el código es la creación de la plantilla que, aunque
 puede realizarse a través de `L.Mutable.DivIcon`_, es mejor hacer a través de
