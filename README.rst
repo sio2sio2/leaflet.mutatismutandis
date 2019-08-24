@@ -99,8 +99,7 @@ Y en el código que pretendamos desarrollar:
 .. code-block:: javascript
 
    import L from "leaflet";
-   import Mutable from "leaflet.mutatismutandis";
-   L.Mutable = Mutable;
+   import "leaflet.mutatismutandis";
 
 Uso básico
 ==========

@@ -9,9 +9,10 @@ import * as utils from "./utils/index.js";
 
 L.Marker.Mutable = MutableMarker;
 L.DivIcon.Mutable = MutableIcon;
-
-export default {
+L.Mutable = {
    Marker: MutableMarker,
    DivIcon: MutableIcon,
    utils: utils
 }
+
+export default L.Mutable;
