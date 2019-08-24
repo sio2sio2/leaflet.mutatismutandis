@@ -6880,11 +6880,12 @@ if (false) {}
 
 L.Marker.Mutable = _mutableMarker_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"];
 L.DivIcon.Mutable = _mutableIcon_js__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"];
-/* harmony default export */ __webpack_exports__["default"] = ({
+L.Mutable = {
   Marker: _mutableMarker_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"],
   DivIcon: _mutableIcon_js__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"],
   utils: _utils_index_js__WEBPACK_IMPORTED_MODULE_2__
-});
+};
+/* harmony default export */ __webpack_exports__["default"] = (L.Mutable);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(30)))
 
 /***/ }),
