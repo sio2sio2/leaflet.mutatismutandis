@@ -28,7 +28,7 @@ window.onload = function() {
          Gym = crearMarca(layer);
    
    // Carga del JSON con los datos.
-   L.utils.load({
+   L.Mutable.utils.load({
       url: "files/gym.json",
       callback: xhr => {
          const datos = JSON.parse(xhr.responseText);
@@ -49,9 +49,9 @@ window.onload = function() {
 
 function crearIcono() {
    // Define cómo se convierten los datos en las opciones de dibujo.
-   const converter = new L.utils.Converter(["piscina", "numact"])
-                                .define("numact", "actividades", a => a.length)
-                                .define("piscina", "inst", i => i.includes("piscina"));
+   const converter = new L.Mutable.utils.Converter(["piscina", "numact"])
+                                        .define("numact", "actividades", a => a.length)
+                                        .define("piscina", "inst", i => i.includes("piscina"));
 
    // Cómo se actualiza la plantilla en función
    // de las opciones de dibujo
@@ -69,7 +69,7 @@ function crearIcono() {
       }
    }
 
-   return L.utils.createMutableIconClass("chupachups", {
+   return L.Mutable.utils.createMutableIconClass("chupachups", {
       iconSize: [25, 34],
       iconAnchor: [12.5, 34],
       html: document.querySelector("template").content,

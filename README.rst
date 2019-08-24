@@ -60,15 +60,18 @@ Sistema de filtros
 
 Instalación
 ===========
-La extensión dispone de tres sabores distintos:
+La extensión dispone de cuatro sabores distintos:
 
 * ``leaflet.mutatismutandis.js``, que es la versión minimizada de la
-  librería; y la apropiada en la mayor parte de los casos
+  librería; y apropiada para usarse directamente desde el navegador.
 * ``leaflet.mutatismutandis.bundle.js``, que es una versión minimizada que
   incluye el código de Leaflet_\ [#]_.
-* ``leaflet.mutatismutandis-src.js``, que es una versión no minimizada con
+* ``leaflet.mutatismutandis.src.js``, que es una versión no minimizada
+  apropiada para usarla como componente en el desarrollo de una aplicación con
+  NodeJS_.
+* ``leaflet.mutatismutandis-debug.js``, que es una versión de desarrollo con
   mapeos al código fuente original, lo que la hace útil en caso de que se
-  quieran realizar labores de depuración.
+  quieran realizar labores de depuración desde el propio navegador.
 
 Si se pretende usar directamente desde el **navegador**:
 
@@ -76,16 +79,16 @@ Si se pretende usar directamente desde el **navegador**:
 
    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
    <script src="https://unpkg.com/leaflet@t.5.1/dist/leaflet.js"></script>
-   <script src="https://unpkg.com/leaflet.mutatismutandis"></script>
+   <script src="https://unpkg.com/leaflet.mutatismutandis/dist/leaflet.mutatismutandis.js"></script>
 
 o bien, con la versión *bundle* que contiene el código de Leaflet_:
 
 .. code-block:: html
 
-   <link rel="stylesheet" href="https://unpkg.com/leaflet.mutatismutandis@1.0.0/dist/leaflet.mutatismutandis.bundle.css">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet.mutatismutandis/dist/leaflet.mutatismutandis.bundle.css">
    <script src="https://unpkg.com/leaflet.mutatismutandis/dist/leaflet.mutatismutandis.bundle.js"></script>
 
-Si se pretende usar para un desarrollo con NodeJS_:
+Si se pretende usar como **componente** para desarrollo con NodeJS_:
 
 .. code-block:: console
 
@@ -96,7 +99,8 @@ Y en el código que pretendamos desarrollar:
 .. code-block:: javascript
 
    import L from "leaflet";
-   import "leaflet.mutatismutandis";
+   import Mutable from "leaflet.mutatismutandis";
+   L.Mutable = Mutable;
 
 Uso básico
 ==========
@@ -302,7 +306,7 @@ El código *Javascript* es este:
             Gym = crearMarca(layer);
       
       // Carga del JSON con los datos.
-      L.utils.load({
+      L.Mutable.utils.load({
          url: "files/gym.json",
          callback: xhr => {
             const datos = JSON.parse(xhr.responseText);
@@ -320,9 +324,9 @@ El código *Javascript* es este:
 
    function crearIcono() {
       // Define cómo se convierten los datos en las opciones de dibujo.
-      const converter = new L.utils.Converter(["piscina", "numact"])
-                                   .define("numact", "actividades", a => a.length)
-                                   .define("piscina", "inst", i => i.includes("piscina"));
+      const converter = new L.Mutable.utils.Converter(["piscina", "numact"])
+         .define("numact", "actividades", a => a.length)
+         .define("piscina", "inst", i => i.includes("piscina"));
 
       // Cómo se actualiza la plantilla en función
       // de las opciones de dibujo
@@ -340,7 +344,7 @@ El código *Javascript* es este:
          }
       }
 
-      return L.utils.createMutableIconClass("chupachups", {
+      return L.Mutable.utils.createMutableIconClass("chupachups", {
          iconSize: [25, 34],
          iconAnchor: [12.5, 34],
          html: document.querySelector("template").content,
@@ -352,7 +356,7 @@ El código *Javascript* es este:
 
 
    function crearMarca(layer) {
-      return L.MutableMarker.extend({
+      return L.Mutable.Marker.extend({
          options: {
             mutable: "feature.properties"
          }
@@ -389,11 +393,11 @@ Este fichero tiene dos partes bien diferencias\ [#]_:
       hubiera cargado de un fichero externo, entonces sería indispensable.
 
 Lo realmente enjundioso en el código es la creación de la plantilla que, aunque
-puede realizarse a través de `L.DivIcon.Mutable`_, es mejor hacer a través de
+puede realizarse a través de `L.Mutable.DivIcon`_, es mejor hacer a través de
 
-.. _L.utils.createMutableIconClass:
+.. _L.Mutable.utils.createMutableIconClass:
 
-**L.createMutableIcon(name, options)**
+**L.Mutable.utils.createMutableIcon(name, options)**
    Simplifica la creación de una plantilla:
 
    * **name**: nombre que se le quiere dar a la plantilla.
@@ -416,7 +420,7 @@ puede realizarse a través de `L.DivIcon.Mutable`_, es mejor hacer a través de
      | css       | URL al CSS que complementa al HTML de definición. No es       |
      |           | necesario en caso de que la definición se haga mediante SVG.  |
      +-----------+---------------------------------------------------------------+
-     | converter | Objeto conversor definido a través de `L.utils.Converter`_.   |
+     | converter | Objeto conversor definido a través de `L.Mutable.utils.Converter`_.   |
      +-----------+---------------------------------------------------------------+
      | updater   | Función de actualización de los detalles visuales de la       |
      |           | plantilla. Recibe como argumento un objeto con las opciones   |
@@ -445,16 +449,16 @@ deben traducirse a las opciones de dibujo:
 Para llevar a cabo esta labor de traducción entre datos y opciones de dibujo es
 necesario definir un objeto conversor mediante
 
-.. _L.utils.Converter:
+.. _L.Mutable.utils.Converter:
 
-**L.utils.Converter(opciones[])**
+**L.Mutable.utils.Converter(opciones[])**
    Define cómo realizar las conversiones entre los datos y las opciones de
    dibujo. Durante la creación debe pasarse un array que contenga los nombres de
    las opciones:
 
    .. code-block:: js
 
-      const converter = new L.utils.Converter(["piscina", "numact"]);
+      const converter = new L.Mutable.utils.Converter(["piscina", "numact"]);
 
    Sin embargo, para que el conversor quede definido, es necesario expresar cómo
    se llevan a cabo las conversiones:
@@ -487,13 +491,13 @@ necesario definir un objeto conversor mediante
 
      .. code-block:: js
 
-      const converter = new L.utils.Converter(["piscina", "numact"])
+      const converter = new L.Mutable.utils.Converter(["piscina", "numact"])
                                    .define("numact", "actividades", a => a.length)
                                    .define("piscina", "inst", i => i.includes("piscina"));
 
    Esta es la sintaxis necesaria para utilizar la extensión. aunque si se desea
    analizar el código fuente de la extensión es conveniente conocer la `el resto
-   de la API de L.utils.Converter <L.utils.Converter.plus>`_.
+   de la API de L.Mutable.utils.Converter <L.Mutable.utils.Converter.plus>`_.
 
 Por su parte la funcion de *actualización* es bastante trivial, ahora bien:
 
@@ -510,9 +514,9 @@ opción *mutable* con la expresión del atributo en el que se acoplan los datos.
 `L.GeoJSON`_ acopla el dato completo en el atributo *feature*, por lo que las
 propiedades que interesan se encuentrarán en *feature.properties*.
 
-.. _L.Marker.Mutable:
+.. _L.Mutable.Marker:
 
-**L.Marker.Mutable**
+**L.Mutable.Marker**
    El constructor permite crear clases de marcas mutables con sólo añadir al
    extenderlo la opción *mutable* cuyo valor debe ser el atributo en el que se
    acoplan los datos. Por lo demás, pueden añadírsele lo mismo que a
@@ -520,7 +524,7 @@ propiedades que interesan se encuentrarán en *feature.properties*.
 
    .. code-block:: js
 
-      const Gym = L.Marker.Mutable.extend({
+      const Gym = L.Mutable.Marker.extend({
          options: {
             mutable: "feature.properties",
             // filter: layer  // Introduciremos está opción al tratar los filtros.
@@ -680,7 +684,7 @@ propiedades que interesan se encuentrarán en *feature.properties*.
           oculto cambiaron las opciones de dibujp, por lo que el aspecto del
           icono no es el mismo que el que tenía cuando desapareció del mapa.
 
-La API de `L.Marker.Mutable`_ no está completa, falta aún la parte de la `api
+La API de `L.Mutable.Marker`_ no está completa, falta aún la parte de la `api
 para correcciones`_ y la parte de la `api para
 filtros`_.
 
@@ -973,7 +977,7 @@ ejecuta una sólo vez y devuelve los elementos a añadir.
 
 API para correcciones
 ---------------------
-Ahora estamos en condiciones de añadir a la API de `L.Marker.Mutable`_ más métodos
+Ahora estamos en condiciones de añadir a la API de `L.Mutable.Marker`_ más métodos
 y eventos, relacionados estos con las correcciones:
 
 * Métodos:
@@ -1121,7 +1125,7 @@ clase:
 .. code-block:: js
 
    function crearMarca(layer) {
-      return L.Marker.Mutable.extend({
+      return L.Mutable.Marker.extend({
          options: {
             mutable: "feature.properties",
             filter: layer
@@ -1186,7 +1190,7 @@ de que una marca quede filtrada:
   .. code-block:: js
 
      function crearMarca(layer) {
-        return L.Marker.Mutable.extend({
+        return L.Mutable.Marker.extend({
            options: {
               mutable: "feature.properties",
               filter: "filtrado"
@@ -1210,7 +1214,7 @@ de que una marca quede filtrada:
   .. code-block:: js
 
      function crearMarca(layer) {
-        return L.Marker.Mutable.extend({
+        return L.Mutable.Marker.extend({
            options: {
               mutable: "feature.properties",
               filter: function(filtered) {
@@ -1222,15 +1226,15 @@ de que una marca quede filtrada:
      }
 
   El ejemplo tiene el mismo efecto que usar la función predefinida
-  `L.utils.grayFilter`_:
+  `L.Mutable.utils.grayFilter`_:
 
   .. code-block:: js
 
      function crearMarca(layer) {
-        return L.Marker.Mutable.extend({
+        return L.Mutable.Marker.extend({
            options: {
               mutable: "feature.properties",
-              filter: L.utils.grayFilter
+              filter: L.Mutable.utils.grayFilter
            }
         });
      }
@@ -1245,12 +1249,12 @@ de que una marca quede filtrada:
    .. code-block:: js
 
       const layer = L.markerClusterGroup({
-         iconFunctionCreate: L.utils.noFilteredIconCluster
+         iconFunctionCreate: L.Mutable.utils.noFilteredIconCluster
       }).addTo(map);
 
 API para filtros
 ----------------
-Para completar la API de `L.Marker.Mutable`_, faltan aún los métodos y eventos
+Para completar la API de `L.Mutable.Marker`_, faltan aún los métodos y eventos
 asociados al filtrado:
 
 * Métodos:
@@ -1318,22 +1322,22 @@ asociados al filtrado:
 Otras definiciones
 ==================
 
-.. _L.utils.noFilteredIconCluster:
+.. _L.Mutable.utils.noFilteredIconCluster:
 
-**L.utils.noFilteredIconCluster(cluster)**
+**L.Mutable.utils.noFilteredIconCluster(cluster)**
    Redefine iconCreateFunction basándose en la definición original de
    `L.MarkerClusterGroup`_ para que el número del clúster sólo cuente los
    centros no filtrados.
 
-.. _L.utils.grayFilter:
+.. _L.Mutable.utils.grayFilter:
 
-**L.utils.grayFilter(filtered)**
+**L.Mutable.utils.grayFilter(filtered)**
    Pone en escala de grises un icono filtrado o elimina tal escala si ya no lo
    está.
 
-.. _L.utils.load:
+.. _L.Mutable.utils.load:
 
-**L.utils.load(opts)**
+**L.Mutable.utils.load(opts)**
    Realiza peticiones AJAX. Las peticiones serán asíncronas, a menos que no se
    proporcionen función de *callback* ni *failback*.
 
@@ -1362,7 +1366,7 @@ Otras definiciones
 
    .. code-block:: js
 
-      L.utils.load({
+      L.Mutable.utils.load({
          url: "image/logo.svg",
          callback: function(xhr) { 
             const svg = xhr.rsponseXML;
@@ -1370,21 +1374,21 @@ Otras definiciones
          }
       });
 
-.. _L.DivIcon.Mutable:
+.. _L.Mutable.DivIcon:
 
-**L.DivIcon.Mutable**
+**L.Mutable.DivIcon**
    Extensión de L.DivIcon_ a fin de crear iconos definidos por una plantilla a
    la que se aplican cambios en sus detalles según sean los valores de
    sus opciones de dibujo.
 
-   .. warning:: Es preferible usar `L.utils.createMutableIconClass`_ para esta
-      labor.
+   .. warning:: Es preferible usar `L.Mutable.utils.createMutableIconClass`_
+      para esta labor.
 
    .. code-block:: js
 
       function crearIcono() {
          const len = x => x.total === undefined?x.length:x.total;
-         const converter = new L.utils.Converter(["piscina", "numact"])
+         const converter = new L.Mutable.utils.Converter(["piscina", "numact"])
                                       .define("numact", "actividades", a => len(a))
                                       .define("piscina", "inst", i => i.includes("piscina"));
 
@@ -1402,7 +1406,7 @@ Otras definiciones
             }
          }
 
-         return L.DivIcon.Mutable.extend({
+         return L.Mutable.DivIcon.extend({
             className: "chupachups",
             iconSize: [25, 34],
             iconAnchor: [12.5, 34],
@@ -1430,9 +1434,9 @@ Otras definiciones
             const icono = new Icono();.
          });
 
-.. _L.utils.Converter.plus:
+.. _L.Mutable.utils.Converter.plus:
 
-**L.utils.Converter**
+**L.Mutable.utils.Converter**
    Al ya definido método `define`_, la API añade los siguiente atributos y
    métodos:
 

@@ -130,7 +130,8 @@ module.exports = env => {
       output: {
          filename: filename,
          libraryTarget: "umd",
-         umdNamedDefine: false,
+         umdNamedDefine: true,
+         library: ["L", "Mutable"],
          libraryExport: "default"
       },
       plugins: [

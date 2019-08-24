@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("leaflet"));
 	else if(typeof define === 'function' && define.amd)
-		define(["leaflet"], factory);
-	else {
-		var a = typeof exports === 'object' ? factory(require("leaflet")) : factory(root["L"]);
-		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
-	}
+		define("Mutable", ["leaflet"], factory);
+	else if(typeof exports === 'object')
+		exports["Mutable"] = factory(require("leaflet"));
+	else
+		root["L"] = root["L"] || {}, root["L"]["Mutable"] = factory(root["L"]);
 })(window, function(__WEBPACK_EXTERNAL_MODULE_leaflet__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -1127,16 +1127,13 @@ if(false) {}
 
 
 L.Marker.Mutable = _mutableMarker_js__WEBPACK_IMPORTED_MODULE_0__["default"];
-L.Icon.Mutable = _mutableIcon_js__WEBPACK_IMPORTED_MODULE_1__["default"];
-L.utils = {
-   load: _utils_index_js__WEBPACK_IMPORTED_MODULE_2__["load"],
-   createMutableIconClass: _utils_index_js__WEBPACK_IMPORTED_MODULE_2__["createMutableIconClass"],
-   Converter: _utils_index_js__WEBPACK_IMPORTED_MODULE_2__["Converter"],
-   grayFilter: _utils_index_js__WEBPACK_IMPORTED_MODULE_2__["grayFilter"],
-   noFilteredIconCluster: _utils_index_js__WEBPACK_IMPORTED_MODULE_2__["noFilteredIconCluster"]
-}
+L.DivIcon.Mutable = _mutableIcon_js__WEBPACK_IMPORTED_MODULE_1__["default"];
 
-/* harmony default export */ __webpack_exports__["default"] = (_mutableMarker_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = ({
+   Marker: _mutableMarker_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+   DivIcon: _mutableIcon_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+   utils: _utils_index_js__WEBPACK_IMPORTED_MODULE_2__
+});
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! leaflet */ "leaflet")))
 
