@@ -119,9 +119,88 @@ export function equals(o,p) {
 
    if(oprop.length !== pprop.length) return false;
 
-   for(let i=0; i<oprop.length; i++) {
-      const name = oprop[i];
-      if(!equals(o[name], p[name])) return false;
+   // Si es un array, los array se consideran iguales
+   // si contienen los mismos elementos aunque no estén
+   // en el mismo orden.
+   if(o instanceof Array) {
+      for(const eo of o) {
+         let found = false;
+         for(const ep of p) {
+            if(equals(eo, ep)) {
+               found = true;
+               break;
+            }
+         }
+         if(!found) return false;
+      }
+   }
+   else {
+      for(let i=0; i<oprop.length; i++) {
+         const name = oprop[i];
+         if(!equals(o[name], p[name])) return false;
+      }
    }
    return true;
+}
+
+
+/**
+ * Función que compara las opciones de aplicación de una corrección
+ * para conocer si las nuevas opciones ya están incluidas en las primeras.
+ * Es aplicable cuando las opciones están constituidas por dos atributos:
+ *
+ * - Uno que sea un array que contiene los valores que deben ser purgados.
+ * - Otro, llamado "inv", que invierte el sentido.
+ *
+ * Cuando son de este modo, si llamamos "A" a las opciones antiguas, "N"
+ * a las nuevas, !A (o !N) si las opciones se marcan con inv:true; "y"
+ * la intersecciín y "o" la unión; las nuevas opciones estarán incluidas
+ * en las antiguas si se cumple eesto en cada uno de los cuatro casos:
+ *
+ * 1.  N y  A = N
+ * 2.  N y !A = Vacio
+ * 3. !N y !A = !A
+ * 4. !N o  A = Todos
+ *
+ * @param {Object} opts: Opciones, en principio, aplicadas.
+ * @param {Object} newopts: Opciones que de desean comprobar.
+ * @param {Array} all: Todos los valores posibles que puede contener
+ *    el array.
+ *
+ * @returns {Boolean} Verdadero si las nuevas opciones están incluidas.
+ */
+export function compareOpts(opts, newopts, all) {
+   const no = Object.assign({}, opts),
+         np = Object.assign({}, newopts);
+
+   delete no.inv;
+   delete np.inv;
+
+   const oprop = Object.getOwnPropertyNames(no),
+         pprop = Object.getOwnPropertyNames(np);
+
+   if(oprop.length !== pprop.length || oprop.length !== 1 || oprop[0] !== pprop[0]) {
+         console.warn("Imposible comparar opciones. Se usa equals");
+         return equals(opts. newopts);
+   }
+
+   const attr = oprop[0];  // Este es el atributo que contiene el array.
+
+   if(!opts.inv && newopts.inv) {  //A, !N
+      const union = [].concat(opts[attr]);
+      for(const p of newopts[attr]) {
+         if(opts[attr].indexOf(p) === -1) union.push(p);
+      }
+      return union.length === all.length;
+   }
+   else {
+      const inters = opts[attr].filter(e => newopts[attr].indexOf(e) !== -1);
+
+      if(newopts.inv) return inters.length === opts[attr].length;  //!N, !A
+      else {
+         if(opts.inv) return inters.length === 0;  // !A, N
+         else return inters.length === newopts[attr].length; // N, A
+      }
+   }
+
 }

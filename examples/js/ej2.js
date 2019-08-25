@@ -4,7 +4,8 @@ function agregarExtras() {
       // opts: {inst: ["piscina", "sauna"], inv: true}
       func: function(idx, inst, opts) {
          return !!(opts.inv ^ opts.inst.includes(inst[idx]));
-      }
+      },
+      apply: (o, n) => L.Mutable.utils.compareOpts(o, n, Object.keys(general.tipos))
    });
 
    this.register("actividades", {
@@ -12,7 +13,9 @@ function agregarExtras() {
       // opts: {act: ["nlibre", "mlibre"], inv: true}
       func: function(idx, act, opts) {
          return !!(opts.inv ^ opts.act.includes(act[idx]));
-      }
+      },
+      // En realidad, sólo interesa conocer cuántas actividades son en total.
+      apply: (o, n) => L.Mutable.utils.compareOpts(o, n, {length: 7})
    });
 }
 

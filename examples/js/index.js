@@ -129,7 +129,6 @@ function crearControles() {
    }
 
    const num = getScriptName();
-   console.log("DEBUG", num);
    if(num<2) return;
 
    let script = document.createElement("script");

@@ -15,6 +15,7 @@ function agregarExtras() {
       func: function(idx, inst, opts) {
          return !!(opts.inv ^ opts.inst.includes(inst[idx]));
       },
+      apply: (o, n) => L.Mutable.utils.compareOpts(o, n, Object.keys(general.tipos)),
       autochain: false,
       chain: [{
          corr: "actividades",
@@ -34,7 +35,8 @@ function agregarExtras() {
       // opts: {act: ["nlibre", "mlibre"], inv: true}
       func: function(idx, act, opts) {
          return !!(opts.inv ^ opts.act.includes(act[idx]));
-      }
+      },
+      apply: (o, n) => L.Mutable.utils.compareOpts(o, n, {length: 7})
    });
 
    this.registerF("actmin", {

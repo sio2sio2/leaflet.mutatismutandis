@@ -1082,6 +1082,66 @@ y eventos, relacionados estos con las correcciones:
      - Cualquier otro valor realiza la comprobación tanto en la aplicación
        manual como en las automáticas.
 
+   Ahora bien, dado que cada corrección tiene una idiosincrasia propia, para que
+   sea posible comparar opciones de aplicación y determinar si unas implican
+   otras, es necesario que al registrar la corrección se indique cuál es el
+   algoritmo mediante el atributo *apply*:
+
+   .. code-block:: js
+
+      this.register("instalaciones", {
+         attr: "inst",
+         // opts: {inst: ["piscina", "sauna"], inv: true}
+         func: function(idx, inst, opts) {
+            return !!(opts.inv ^ opts.inst.includes(inst[idx]));
+         },
+         apply: (opts, newopts) => {
+            const todas = Object.keys(general.tipos);
+            if(/* newopts ya incluida en opts */) {
+               return true;
+            }
+            else return false;
+         } 
+      });
+
+   El valor del atributo es una función que compara unas opciones (*newopts*)
+   con las opciones aplicadas (*opts*) y devuelve ``true``, si la corrección que
+   supone las opciones aplicadas incluye la que generaría la aplicación de las
+   nuevas opciones. Ahora bien, como lo habitual es que se definan las
+   correcciones de manera que las opciones de corrección estén constituidas por
+   dos atributos:
+
+   - Un atributo de nombre arbitrario con la lista de valores que se desean purgar.
+   - Un atributo lógico llamado *inv* que invierte el sentido del atributo
+     anterior, de modo que si vale ``true``, la lista de valores representa a
+     aquellos que se desean conservar.
+
+   las utilidades del *plugin* incluyen:
+
+   **L.Mutable.utils.compareOpts(opts, newopts, all)**
+      Compara si en una corrección la aplicación de las nuevas opciones
+      (*newopts*) está incluida en las opciones indicadas en primer lugar
+      (*opts*), siempre y cuando las opciones estén concebidas como una lista
+      de los valores que se desean purgar.
+
+      Usando esta función, la definición de la corrección anterior puede
+      llevarse a cabo así:
+
+      .. code-block:: js
+
+         this.register("instalaciones", {
+            attr: "inst",
+            // opts: {inst: ["piscina", "sauna"], inv: true}
+            func: function(idx, inst, opts) {
+               return !!(opts.inv ^ opts.inst.includes(inst[idx]));
+            },
+            apply: (o, n) => L.Mutable.utils.compareOpts(o, n, Object.keys(general.tipos))
+         });
+
+   En caso, de que no se defina ninguna función *apply*, la función se limitará
+   a ver si las opciones de aplicación son iguales mediante
+   ``L.Mutable.utils.equals``.
+
 * Eventos:
 
   .. _e-correct:

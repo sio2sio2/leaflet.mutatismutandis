@@ -10,7 +10,8 @@
             "tipos": {
                "musculación": ["mlibre", "mguiada"],
                "diáfana": ["zumba", "pilates", "yoga"],
-               "piscina": ["nlibre", "nguiada"]
+               "piscina": ["nlibre", "nguiada"],
+               "sauna":[]
             }
          }
       },
